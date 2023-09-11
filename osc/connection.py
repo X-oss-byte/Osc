@@ -258,6 +258,10 @@ def http_request(method: str, url: str, headers=None, data=None, file=None, retr
         if purl.scheme == "https":
             ssl_context = oscssl.create_ssl_context()
             ssl_context.load_default_certs()
+
+            if options.cafile or options.capath:
+                ssl_context.load_verify_locations(cafile=options.cafile, capath=options.capath)
+
             pool_kwargs["ssl_context"] = ssl_context
             # turn cert verification off if sslcertck = 0
 
